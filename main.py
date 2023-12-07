@@ -1,4 +1,3 @@
-from pprint import pprint
 import fuzzy_sets.alpha
 from fuzzy_sets.alpha import AlphaRange
 from fuzzy_sets.classes import FuzzySet, FuzzySetMember
@@ -38,7 +37,9 @@ if __name__ == "__main__":
     ]
     print("\n".join([str(range) for range in fun_alpha_ranges]))
     print(fuzzy_sets.alpha.fuzzy_set_from_alpha_ranges(fun_alpha_ranges))
-    print("\n")
+
+    print()
+
     frood_from_alpha_ranges = fuzzy_sets.alpha.fuzzy_set_from_alpha_ranges(
         frood_alpha_ranges
     )
@@ -55,7 +56,36 @@ if __name__ == "__main__":
             FuzzySetMember(6, 1.0),
         }
     )
+    die_low_scores = FuzzySet(
+        {
+            FuzzySetMember(1, 1.0),
+            FuzzySetMember(2, 0.8),
+            FuzzySetMember(3, 0.6),
+            FuzzySetMember(4, 0.4),
+            FuzzySetMember(5, 0.2),
+            FuzzySetMember(6, 0.1),
+        }
+    )
+    print("Die high scores:", die_high_scores)
     squared = fuzzy_sets.functions.real_to_real(lambda x: x**2, die_high_scores)
     print("Squared:", squared)
-    squared = fuzzy_sets.functions.real_to_real(lambda x: x**2, die_high_scores)
-    print("Squared:", squared)
+    halved = fuzzy_sets.functions.real_to_real(lambda x: x / 2, die_high_scores)
+    print("halved:", halved)
+
+    print()
+
+    print("Die low scores:", die_low_scores)
+    added = fuzzy_sets.functions.apply(
+        lambda x, y: x + y, die_high_scores, die_low_scores
+    )
+    print("Added:", added)
+
+    three_way_add = fuzzy_sets.functions.apply(
+        lambda x, y, z: x + y + z, die_high_scores, die_low_scores, squared
+    )
+    print("Three way add:", three_way_add)
+
+    print(
+        "test:",
+        fuzzy_sets.functions.apply(lambda x: x**2, die_high_scores, die_low_scores),
+    )

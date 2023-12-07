@@ -15,6 +15,7 @@ class AlphaRange:
 
     def __str__(self) -> str:
         sorted_values = sorted(self.crisp_set)
+        sorted_values = [str(value) for value in sorted_values]
         return (
             f"{{{', '.join(sorted_values)}}}: α ∈ ({self.alpha_min}, {self.alpha_max}]"
         )
@@ -44,18 +45,8 @@ def alpha_ranges(fuzzy_set: FuzzySet) -> list[AlphaRange]:
 
 
 def fuzzy_set_from_alpha_ranges(alpha_ranges: list[AlphaRange]) -> FuzzySet:
-    # Check a valid set of alpha ranges has been provided
-    sorted_alpha_ranges = sorted(alpha_ranges, key=lambda x: len(x.crisp_set))
-    for index, alpha_range in enumerate(sorted_alpha_ranges):
-        if index == 0:
-            continue
-        previous_crisp_set = sorted_alpha_ranges[index - 1].crisp_set
-        if not previous_crisp_set.issubset(alpha_range.crisp_set):
-            raise ValueError(
-                "Invalid alpha ranges provided. Higher alpha ranges must be subsets of lower alpha ranges"
-            )
-
     # Get all the values by finding the largest crisp set
+    sorted_alpha_ranges = sorted(alpha_ranges, key=lambda x: len(x.crisp_set))
     largest_alpha_range = sorted_alpha_ranges[-1]
     values = largest_alpha_range.crisp_set
 
