@@ -7,3 +7,9 @@ __pycache__/
 # Editor
 .vscode
 
+# Docs
+docs/_build/
+docs/_static/
+docs/_templates/
+docs/*.bat
+docs/Makefile

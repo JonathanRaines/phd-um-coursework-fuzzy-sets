@@ -65,14 +65,16 @@ def get_alpha_overlap(alpha_ranges: list[tuple[float, float]]) -> tuple[float, f
 
 
 def apply(func: Callable[[float], float], *input_sets: FuzzySet) -> FuzzySet:
-    """Applies a function to multiple fuzzy sets using the alpha cut method
+    """Applies a function to any number of fuzzy sets using the alpha cut method
+
+    .. note:: You must provide as many fuzzy sets as the function expects inputs.
 
     Args:
         func (Callable[[float], float]): The function to the provided fuzzy sets
         *input_sets (FuzzySet): The fuzzy sets to apply the function to
 
     Raises:
-        TypeError: If any fuzzy set does not contain real values
+        TypeError: If any fuzzy set does not contain real number values (e.g. strings)
         ValueError: If the number of fuzzy sets does not match the number of inputs the function expects
 
     Returns:
