@@ -1,0 +1,17 @@
+[project]
+name = "fuzzy_sets"
+version = "0.0.1"
+authors = [
+  { name="Jonathan Raines", email="jr0278@bristol.ac.uk" },
+]
+description = "University of Bristol, Interactive AI PhD, Uncertainty Modelling coursework."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "."
+]
