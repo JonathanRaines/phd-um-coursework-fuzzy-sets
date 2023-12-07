@@ -7,6 +7,11 @@ class FuzzySetMember:
     value: Any
     membership: float
 
+    # Make sure membership is between 0 and 1
+    def __post_init__(self):
+        if not 0 < self.membership <= 1:
+            raise ValueError("Membership must be between 0 and 1")
+
     def __repr__(self) -> str:
         return f"FuzzySetMember({self.value}, {self.membership})"
 
@@ -31,10 +36,11 @@ class FuzzySet:
     def values(self) -> list[float]:
         return {member.value for member in self.members}
 
+    def sorted_list(self) -> list[FuzzySetMember]:
+        return sorted(self.members, key=lambda x: x.membership)
+
     def __str__(self) -> str:
-        return " + ".join(
-            [str(member) for member in sorted(self.members, key=lambda x: x.membership)]
-        )
+        return " + ".join([str(member) for member in self.sorted_list()])
 
     def __repr__(self) -> str:
         return f"FuzzySet({self.members})"
