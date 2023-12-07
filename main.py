@@ -17,7 +17,10 @@ if __name__ == "__main__":
             FuzzySetMember("Vogon", 0.1),
         }
     )
-
+    print(f"\n{' Fuzzy Set ':=^100}")
+    print("Froodiness:")
     print(frood)
-    print("\n".join([str(cut) for cut in fuzzy_sets.alpha.alpha_ranges(frood)]))
+    print(f"\n{' Alpha Cut ':=^100}")
     print("~Frood_0.5:", fuzzy_sets.alpha.alpha_cut(frood, 0.5))
+    print(f"\n{' Alpha Ranges ':=^100}")
+    print("\n".join([str(cut) for cut in fuzzy_sets.alpha.alpha_ranges(frood)]))
