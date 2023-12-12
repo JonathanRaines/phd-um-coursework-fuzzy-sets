@@ -31,7 +31,7 @@ def real_to_real(func: Callable[[float], float], fuzzy_set: FuzzySet) -> FuzzySe
         >>> print(squared)
         1/1 + 4/0.5 + 9/0.25
     """
-    if not all(isinstance(member.value, int | float) for member in fuzzy_set.members):
+    if not all(isinstance(member.value, int | float) for member in fuzzy_set):
         raise TypeError("Fuzzy set must contain integer/real values")
 
     return FuzzySet(
@@ -40,7 +40,7 @@ def real_to_real(func: Callable[[float], float], fuzzy_set: FuzzySet) -> FuzzySe
                 value=func(member.value),
                 membership=member.membership,
             )
-            for member in fuzzy_set.members
+            for member in fuzzy_set
         }
     )
 
@@ -115,9 +115,7 @@ def apply(func: Callable[[float], float], *input_sets: FuzzySet) -> FuzzySet:
     """
     # Check all fuzzy sets contain real values
     for fuzzy_set in input_sets:
-        if not all(
-            isinstance(member.value, int | float) for member in fuzzy_set.members
-        ):
+        if not all(isinstance(member.value, int | float) for member in fuzzy_set):
             raise TypeError("Fuzzy set must contain integer/real values")
 
     # Check correct number of inputs have been provided

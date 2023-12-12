@@ -54,7 +54,7 @@ def alpha_cut(fuzzy_set: FuzzySet, alpha: float) -> {Any}:
     """
     if alpha < 0 or alpha > 1:
         raise ValueError(f"Alpha value must be between 0 and 1, got {alpha}")
-    return {member.value for member in fuzzy_set.members if member.membership >= alpha}
+    return {member.value for member in fuzzy_set if member.membership >= alpha}
 
 
 def alpha_ranges(fuzzy_set: FuzzySet) -> list[AlphaRange]:
@@ -68,17 +68,19 @@ def alpha_ranges(fuzzy_set: FuzzySet) -> list[AlphaRange]:
 
     Examples:
         >>> froodiness = FuzzySet(
-                            FuzzySetMember("Ford Prefect", 1.0),
-                            FuzzySetMember("Zaphod Beeblebrox", 1.0),
-                            FuzzySetMember("Trillian", 0.7),
-                            FuzzySetMember("Fenchurch", 0.7),
-                            FuzzySetMember("Slartibartfast", 0.6),
-                            FuzzySetMember("Arthur Dent", 0.5),
-                            FuzzySetMember("Deep Thought", 0.4),
-                            FuzzySetMember("Agrajag", 0.3),
-                            FuzzySetMember("The poor whale", 0.2),
-                            FuzzySetMember("Marvin", 0.1),
-                            FuzzySetMember("Vogon", 0.1),
+                            {
+                                FuzzySetMember("Ford Prefect", 1.0),
+                                FuzzySetMember("Zaphod Beeblebrox", 1.0),
+                                FuzzySetMember("Trillian", 0.7),
+                                FuzzySetMember("Fenchurch", 0.7),
+                                FuzzySetMember("Slartibartfast", 0.6),
+                                FuzzySetMember("Arthur Dent", 0.5),
+                                FuzzySetMember("Deep Thought", 0.4),
+                                FuzzySetMember("Agrajag", 0.3),
+                                FuzzySetMember("The poor whale", 0.2),
+                                FuzzySetMember("Marvin", 0.1),
+                                FuzzySetMember("Vogon", 0.1),
+                            }
                         )
         >>> print("Froodiness:", froodiness)
         Froodiness: Vogon/0.1 + Marvin/0.1 + The poor whale/0.2 + Agrajag/0.3 + Deep Thought/0.4 + Arthur Dent/0.5 + Slartibartfast/0.6 + Trillian/0.7 + Fenchurch/0.7 + Ford Prefect/1.0 + Zaphod Beeblebrox/1.0
@@ -93,9 +95,7 @@ def alpha_ranges(fuzzy_set: FuzzySet) -> list[AlphaRange]:
         {Fenchurch, Ford Prefect, Trillian, Zaphod Beeblebrox}: α ∈ (0.6, 0.7]
         {Ford Prefect, Zaphod Beeblebrox}: α ∈ (0.7, 1.0]
     """
-    unique_memberships = sorted(
-        list({member.membership for member in fuzzy_set.members})
-    )
+    unique_memberships = sorted(list({member.membership for member in fuzzy_set}))
 
     alpha_ranges: list[AlphaRange] = []
     for index, membership in enumerate(unique_memberships):
@@ -103,7 +103,7 @@ def alpha_ranges(fuzzy_set: FuzzySet) -> list[AlphaRange]:
         alpha_max = membership
         crisp_set = {
             member.value
-            for member in fuzzy_set.members
+            for member in fuzzy_set
             if member.membership >= alpha_max and member.membership > alpha_min
         }
         alpha_ranges.append(AlphaRange(alpha_min, alpha_max, crisp_set))
@@ -136,7 +136,7 @@ def fuzzy_set_from_alpha_ranges(alpha_ranges: list[AlphaRange]) -> FuzzySet:
     largest_alpha_range = sorted_alpha_ranges[-1]
     values = largest_alpha_range.crisp_set
 
-    members = set()
+    members = FuzzySet()
     for value in values:
         ranges_containing_value = [
             alpha_range
@@ -147,4 +147,4 @@ def fuzzy_set_from_alpha_ranges(alpha_ranges: list[AlphaRange]) -> FuzzySet:
         max_alpha = sorted(ranges_containing_value, key=lambda x: x.alpha_max)[-1]
         members.add(FuzzySetMember(value, max_alpha.alpha_max))
 
-    return FuzzySet(members)
+    return members

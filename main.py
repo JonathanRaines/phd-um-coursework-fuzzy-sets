@@ -1,6 +1,9 @@
+from pprint import pprint
+from fuzzy_sets import probability
 import fuzzy_sets.alpha
 from fuzzy_sets.alpha import AlphaRange
 from fuzzy_sets.classes import FuzzySet, FuzzySetMember
+from fuzzy_sets.probability import ProbabilityDistribution, Probability
 import fuzzy_sets.functions
 
 if __name__ == "__main__":
@@ -19,6 +22,7 @@ if __name__ == "__main__":
             FuzzySetMember("Vogon", 0.1),
         }
     )
+
     print(f"\n{' Fuzzy Set ':=^100}")
     print("Froodiness:")
     print(frood)
@@ -56,6 +60,7 @@ if __name__ == "__main__":
             FuzzySetMember(6, 1.0),
         }
     )
+
     die_low_scores = FuzzySet(
         {
             FuzzySetMember(1, 1.0),
@@ -66,6 +71,7 @@ if __name__ == "__main__":
             FuzzySetMember(6, 0.1),
         }
     )
+
     print("Die high scores:", die_high_scores)
     squared = fuzzy_sets.functions.real_to_real(lambda x: x**2, die_high_scores)
     print("Squared:", squared)
@@ -85,7 +91,105 @@ if __name__ == "__main__":
     )
     print("Three way add:", three_way_add)
 
+    print(f"\n{' Fuzzy Propositions ':=^100}")
+
+    # Only for printing
+    W = {("H", "H"), ("H", "T"), ("T", "H"), ("T", "T")}
+    print("W, set of possible worlds for tossing two coins:", W)
+
+    fair_distribution = ProbabilityDistribution(
+        {
+            Probability(("H", "H"), 0.25),
+            Probability(("H", "T"), 0.25),
+            Probability(("T", "H"), 0.25),
+            Probability(("T", "T"), 0.25),
+        }
+    )
+
+    print("Fair distribution:\n", str(fair_distribution))
+
+    print()
+
+    all_heads = FuzzySet(
+        {
+            FuzzySetMember(("H", "H"), 1.0),
+        }
+    )
+
+    conditional_distribution = probability.conditional_distribution(
+        fair_distribution, all_heads
+    )
     print(
-        "test:",
-        fuzzy_sets.functions.apply(lambda x: x**2, die_high_scores, die_low_scores),
+        "Conditional distribution given all heads obtained:\n",
+        str(conditional_distribution),
+    )
+    print(
+        f"Sum of conditional probabilities: {sum(conditional_distribution.probabilities):.3f}"
+    )
+
+    print()
+
+    at_least_one_head = FuzzySet(
+        {
+            FuzzySetMember(("H", "H"), 1.0),
+            FuzzySetMember(("T", "H"), 1.0),
+            FuzzySetMember(("H", "T"), 1.0),
+        }
+    )
+
+    conditional_distribution = probability.conditional_distribution(
+        fair_distribution, at_least_one_head
+    )
+    print(
+        "Conditional distribution given at_least_one_head obtained:\n",
+        str(conditional_distribution),
+    )
+    print(
+        f"Sum of conditional probabilities: {sum(conditional_distribution.probabilities):.3f}"
+    )
+
+    print()
+
+    good_result = FuzzySet(
+        {
+            FuzzySetMember(("H", "H"), 1.0),
+            FuzzySetMember(("H", "T"), 0.5),
+            FuzzySetMember(("T", "H"), 0.5),
+        }
+    )
+
+    conditional_distribution = probability.conditional_distribution(
+        fair_distribution, good_result
+    )
+
+    print(
+        "Conditional distribution given a good result was obtained:\n",
+        str(conditional_distribution),
+    )
+
+    print(
+        f"Sum of conditional probabilities: {sum(conditional_distribution.probabilities):.3f}"
+    )
+
+    print()
+
+    unfair_distribution = ProbabilityDistribution(
+        {
+            Probability(("H", "H"), 0.25**2),
+            Probability(("H", "T"), 0.25 * 0.75),
+            Probability(("T", "H"), 0.75 * 0.25),
+            Probability(("T", "T"), 0.75**2),
+        }
+    )
+
+    print("Unfair distribution (P(H) = 0.25, P(T) = 0.75):\n", str(unfair_distribution))
+
+    unfair_conditional_distribution = probability.conditional_distribution(
+        unfair_distribution, good_result
+    )
+
+    print("Unfair conditional distribution:\n", str(unfair_conditional_distribution))
+
+    print(
+        f"Sum of conditional probabilities: {sum(unfair_conditional_distribution.probabilities):.3f}"
     )
