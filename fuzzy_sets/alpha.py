@@ -1,7 +1,11 @@
+"""Fuzzy sets can be represented as a crisp set for a given value of membership α.
+
+This module provides functions to convert between fuzzy sets and alpha cut representations.
+"""
 from dataclasses import dataclass
 from typing import Any
 
-from fuzzy_sets.classes import FuzzySet, FuzzySetMember
+from fuzzy_sets.base import FuzzySet, FuzzySetMember
 
 
 @dataclass
@@ -9,9 +13,9 @@ class AlphaRange:
     """A crisp set that is true between a min and a max alpha value.
 
     Attributes:
-        alpha_min: The minimum alpha value for which the crisp set is true.
-        alpha_max: The maximum alpha value for which the crisp set is true.
-        crisp_set: The set of values.
+        alpha_min[float]: The minimum alpha value for which the crisp set is true. Between 0 and 1.
+        alpha_max[float]: The maximum alpha value for which the crisp set is true. Between 0 and 1.
+        crisp_set[set[Any]]: The set of values.
     """
 
     alpha_min: float

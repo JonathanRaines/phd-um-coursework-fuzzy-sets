@@ -10,9 +10,10 @@ Welcome to Fuzzy Sets's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   classes
+   base
    alpha
    functions
+   probability
 
 Indices and tables
 ==================

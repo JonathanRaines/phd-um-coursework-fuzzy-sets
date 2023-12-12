@@ -1,7 +1,7 @@
 from fuzzy_sets import probability
 import fuzzy_sets.alpha
 from fuzzy_sets.alpha import AlphaRange
-from fuzzy_sets.classes import FuzzySet, FuzzySetMember
+from fuzzy_sets.base import FuzzySet, FuzzySetMember
 from fuzzy_sets.probability import ProbabilityDistribution, Probability
 import fuzzy_sets.functions
 

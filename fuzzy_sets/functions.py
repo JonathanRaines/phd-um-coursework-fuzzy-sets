@@ -2,7 +2,7 @@ from inspect import signature
 import itertools
 from typing import Callable
 
-from fuzzy_sets.classes import FuzzySet, FuzzySetMember
+from fuzzy_sets.base import FuzzySet, FuzzySetMember
 from fuzzy_sets.alpha import AlphaRange
 import fuzzy_sets.alpha
 
@@ -34,7 +34,7 @@ def real_to_real(func: Callable[[float], float], fuzzy_set: FuzzySet) -> FuzzySe
     if not all(isinstance(member.value, int | float) for member in fuzzy_set):
         raise TypeError("Fuzzy set must contain integer/real values")
 
-    return FuzzySet(
+    result_fuzzy_set = FuzzySet(
         {
             FuzzySetMember(
                 value=func(member.value),
@@ -43,6 +43,15 @@ def real_to_real(func: Callable[[float], float], fuzzy_set: FuzzySet) -> FuzzySe
             for member in fuzzy_set
         }
     )
+
+    # Some functions may produce duplicate values e.g. lambda x: x * 0 makes all the values 0.
+    # As we're using sets, this will drop all duplicates, so we need to check the lengths are the same.
+    if len(result_fuzzy_set) != len(fuzzy_set):
+        raise ValueError(
+            "Function provided produced duplicate values. Are you multiplying by zero?"
+        )
+
+    return result_fuzzy_set
 
 
 def get_alpha_overlap(alpha_ranges: list[tuple[float, float]]) -> tuple[float, float]:

@@ -1,9 +1,17 @@
+"""Base classes for fuzzy sets"""
 from dataclasses import dataclass
 from typing import Any
 
 
 @dataclass
 class FuzzySetMember:
+    """An element in a fuzzy set.
+
+    Args:
+        value[Any]: The thing that is part of a set
+        membership[float]: A value between 0 and 1 that represents how much the value is part of the set.
+    """
+
     value: Any
     membership: float
 
@@ -32,18 +40,22 @@ class FuzzySetMember:
 
 @dataclass
 class FuzzySet(set[FuzzySetMember]):
+    """An extension of the set class that adds a few convenience methods."""
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     @property
     def values(self) -> list[float]:
+        """Return a set of just values."""
         return {member.value for member in self.members}
 
-    def sorted_list(self) -> list[FuzzySetMember]:
-        return sorted(self, key=lambda x: x.membership)
+    def sort_by_membership(self) -> list[FuzzySetMember]:
+        """Return the set sorted by membership, uses value as a tiebreaker."""
+        return sorted(self, key=lambda x: (x.membership, x.value))
 
     def __str__(self) -> str:
-        return " + ".join([str(member) for member in self.sorted_list()])
+        return " + ".join([str(member) for member in self.sort_by_membership()])
 
     def __repr__(self) -> str:
         return f"FuzzySet({self})"
