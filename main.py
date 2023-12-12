@@ -1,4 +1,3 @@
-from pprint import pprint
 from fuzzy_sets import probability
 import fuzzy_sets.alpha
 from fuzzy_sets.alpha import AlphaRange
@@ -76,7 +75,7 @@ if __name__ == "__main__":
     squared = fuzzy_sets.functions.real_to_real(lambda x: x**2, die_high_scores)
     print("Squared:", squared)
     halved = fuzzy_sets.functions.real_to_real(lambda x: x / 2, die_high_scores)
-    print("halved:", halved)
+    print("Halved:", halved)
 
     print()
 
