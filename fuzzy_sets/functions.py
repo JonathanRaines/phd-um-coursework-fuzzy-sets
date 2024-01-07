@@ -1,3 +1,11 @@
+"""
+This modules enables applying functions to Fuzzy Sets.
+
+real_to_real uses the simple method of apply a function element-wise to the set.
+
+Apply uses the grid method to apply a function to a set. This enables functions with more than one fuzzy set as an input. 
+"""
+
 from inspect import signature
 import itertools
 from typing import Callable
@@ -56,6 +64,7 @@ def real_to_real(func: Callable[[float], float], fuzzy_set: FuzzySet) -> FuzzySe
 
 def get_alpha_overlap(alpha_ranges: list[tuple[float, float]]) -> tuple[float, float]:
     """Takes in a list of alpha ranges and returns the overlapping alpha range
+        This is used by the apply function to find if a given combination of alpha ranges overlap.
 
     Args:
         *alpha_ranges (tuple[float, float]): A list of alpha ranges

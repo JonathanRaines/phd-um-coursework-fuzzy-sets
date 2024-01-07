@@ -1,6 +1,10 @@
 """Fuzzy sets can be represented as a crisp set for a given value of membership α.
 
 This module provides functions to convert between fuzzy sets and alpha cut representations.
+
+For this module, an Alpha Cut is represented as a python set and refers to the crisp set that is is true for a specific alpha value. 
+
+The term Alpha Range is used to refer to a dataclass that represents a crisp set that is true for a range of alpha values (between its min and max).
 """
 from dataclasses import dataclass
 from typing import Any
@@ -25,6 +29,7 @@ class AlphaRange:
     def __repr__(self) -> str:
         return f"AlphaRange(({self.alpha_min}, {self.alpha_max}], {self.crisp_set})"
 
+    # Output in the standard mathematical notation.
     def __str__(self) -> str:
         sorted_values = sorted(self.crisp_set)
         sorted_values = [str(value) for value in sorted_values]
@@ -56,8 +61,11 @@ def alpha_cut(fuzzy_set: FuzzySet, alpha: float) -> {Any}:
         >>> alpha_cut(fuzzy_set, 0.5)
         {3, 4}
     """
+    # Guard against invalid alpha values
     if alpha < 0 or alpha > 1:
         raise ValueError(f"Alpha value must be between 0 and 1, got {alpha}")
+
+    # Return the crisp set of values with a membership greater than the input alpha using set comprehension.
     return {member.value for member in fuzzy_set if member.membership >= alpha}
 
 
@@ -99,10 +107,13 @@ def alpha_ranges(fuzzy_set: FuzzySet) -> list[AlphaRange]:
         {Fenchurch, Ford Prefect, Trillian, Zaphod Beeblebrox}: α ∈ (0.6, 0.7]
         {Ford Prefect, Zaphod Beeblebrox}: α ∈ (0.7, 1.0]
     """
+    # Get the unique membership values in the fuzzy set
     unique_memberships = sorted(list({member.membership for member in fuzzy_set}))
 
     alpha_ranges: list[AlphaRange] = []
+    # Create ranges between the unique membership values
     for index, membership in enumerate(unique_memberships):
+        # The minimum alpha value is the previous unique membership value (or 0 for the first)
         alpha_min = unique_memberships[index - 1] if index > 0 else 0.0
         alpha_max = membership
         crisp_set = {
