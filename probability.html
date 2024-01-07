@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Probability &mdash; Fuzzy Sets  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Functions" href="functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Fuzzy Sets
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="base.html">Fuzzy Set Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="alpha.html">Alpha Cuts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Probability</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fuzzy_sets.probability.Probability"><code class="docutils literal notranslate"><span class="pre">Probability</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fuzzy_sets.probability.Probability.post_init"><code class="docutils literal notranslate"><span class="pre">Probability.post_init()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fuzzy_sets.probability.Probability.probability"><code class="docutils literal notranslate"><span class="pre">Probability.probability</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fuzzy_sets.probability.Probability.value"><code class="docutils literal notranslate"><span class="pre">Probability.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution"><code class="docutils literal notranslate"><span class="pre">ProbabilityDistribution</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution.probabilities"><code class="docutils literal notranslate"><span class="pre">ProbabilityDistribution.probabilities</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution.sort_by_probability"><code class="docutils literal notranslate"><span class="pre">ProbabilityDistribution.sort_by_probability()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution.values"><code class="docutils literal notranslate"><span class="pre">ProbabilityDistribution.values</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fuzzy_sets.probability.conditional"><code class="docutils literal notranslate"><span class="pre">conditional()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fuzzy_sets.probability.conditional_distribution"><code class="docutils literal notranslate"><span class="pre">conditional_distribution()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Fuzzy Sets</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Probability</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/probability.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-fuzzy_sets.probability">
+<span id="probability"></span><h1>Probability<a class="headerlink" href="#module-fuzzy_sets.probability" title="Link to this heading"></a></h1>
+<p>This module considers a conditional probability distribution given a fuzzy proposition.</p>
+<p>In other words, a fuzzy set of possible worlds. P is a probability distribution on W (the set of all possible worlds),
+and ~A is a fuzzy set on W. P(w|A) = integral of P(w|~A) dα from α 0 to 1.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.Probability">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fuzzy_sets.probability.</span></span><span class="sig-name descname"><span class="pre">Probability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fuzzy_sets.probability.Probability" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A value for a random variable and its probability.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong><strong>[</strong><strong>Any</strong><strong>]</strong> – A possible value for a random variable.</p></li>
+<li><p><strong>probability</strong><strong>[</strong><strong>float</strong><strong>]</strong> – The probability the random variable is equal to that value. Between 0 and 1.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.Probability.post_init">
+<span class="sig-name descname"><span class="pre">post_init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fuzzy_sets.probability.Probability.post_init" title="Link to this definition"></a></dt>
+<dd><p>Raises a ValueError if the probability is not between 0 and 1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.Probability.probability">
+<span class="sig-name descname"><span class="pre">probability</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#fuzzy_sets.probability.Probability.probability" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.Probability.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#fuzzy_sets.probability.Probability.value" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.ProbabilityDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fuzzy_sets.probability.</span></span><span class="sig-name descname"><span class="pre">ProbabilityDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fuzzy_sets.probability.ProbabilityDistribution" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code>[<a class="reference internal" href="#fuzzy_sets.probability.Probability" title="fuzzy_sets.probability.Probability"><code class="xref py py-class docutils literal notranslate"><span class="pre">Probability</span></code></a>]</p>
+<p>An extension of the set class. Represents a discrete probability distribution.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.ProbabilityDistribution.probabilities">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">probabilities</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#fuzzy_sets.probability.ProbabilityDistribution.probabilities" title="Link to this definition"></a></dt>
+<dd><p>Return a list of probabilities.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.ProbabilityDistribution.sort_by_probability">
+<span class="sig-name descname"><span class="pre">sort_by_probability</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#fuzzy_sets.probability.Probability" title="fuzzy_sets.probability.Probability"><span class="pre">Probability</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#fuzzy_sets.probability.ProbabilityDistribution.sort_by_probability" title="Link to this definition"></a></dt>
+<dd><p>Return the set sorted by probability, uses value as a tiebreaker.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.ProbabilityDistribution.values">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#fuzzy_sets.probability.ProbabilityDistribution.values" title="Link to this definition"></a></dt>
+<dd><p>Return a list of just possible values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.conditional">
+<span class="sig-prename descclassname"><span class="pre">fuzzy_sets.probability.</span></span><span class="sig-name descname"><span class="pre">conditional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probability</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fuzzy_sets.probability.Probability" title="fuzzy_sets.probability.Probability"><span class="pre">Probability</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution" title="fuzzy_sets.probability.ProbabilityDistribution"><span class="pre">ProbabilityDistribution</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#fuzzy_sets.base.FuzzySet" title="fuzzy_sets.base.FuzzySet"><span class="pre">FuzzySet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#fuzzy_sets.probability.Probability" title="fuzzy_sets.probability.Probability"><span class="pre">Probability</span></a></span></span><a class="headerlink" href="#fuzzy_sets.probability.conditional" title="Link to this definition"></a></dt>
+<dd><p>Calculates the conditional probability given a prior distribution and a fuzzy condition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probability</strong> (<a class="reference internal" href="#fuzzy_sets.probability.Probability" title="fuzzy_sets.probability.Probability"><em>Probability</em></a>) – A value and likelihood pair</p></li>
+<li><p><strong>distribution</strong> (<a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution" title="fuzzy_sets.probability.ProbabilityDistribution"><em>ProbabilityDistribution</em></a>) – The prior distribution</p></li>
+<li><p><strong>condition</strong> (<a class="reference internal" href="base.html#fuzzy_sets.base.FuzzySet" title="fuzzy_sets.base.FuzzySet"><em>FuzzySet</em></a>) – The fuzzy condition</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The conditional probability given the fuzzy condition</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fuzzy_sets.probability.Probability" title="fuzzy_sets.probability.Probability">Probability</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fuzzy_sets.probability.conditional_distribution">
+<span class="sig-prename descclassname"><span class="pre">fuzzy_sets.probability.</span></span><span class="sig-name descname"><span class="pre">conditional_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution" title="fuzzy_sets.probability.ProbabilityDistribution"><span class="pre">ProbabilityDistribution</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#fuzzy_sets.base.FuzzySet" title="fuzzy_sets.base.FuzzySet"><span class="pre">FuzzySet</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution" title="fuzzy_sets.probability.ProbabilityDistribution"><span class="pre">ProbabilityDistribution</span></a></span></span><a class="headerlink" href="#fuzzy_sets.probability.conditional_distribution" title="Link to this definition"></a></dt>
+<dd><p>Calculates the conditional probability distribution given a prior distribution and a fuzzy condition.</p>
+<p>Calls conditional() on each probability in the distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distribution</strong> (<a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution" title="fuzzy_sets.probability.ProbabilityDistribution"><em>ProbabilityDistribution</em></a>) – The prior distribution</p></li>
+<li><p><strong>condition</strong> (<a class="reference internal" href="base.html#fuzzy_sets.base.FuzzySet" title="fuzzy_sets.base.FuzzySet"><em>FuzzySet</em></a>) – The fuzzy condition</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The conditional probability distribution given the fuzzy condition</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fuzzy_sets.probability.ProbabilityDistribution" title="fuzzy_sets.probability.ProbabilityDistribution">ProbabilityDistribution</a></p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">fair_distribution</span> <span class="o">=</span> <span class="n">ProbabilityDistribution</span><span class="p">(</span>
+<span class="go">        {</span>
+<span class="go">            Probability((&quot;H&quot;, &quot;H&quot;), 0.25),</span>
+<span class="go">            Probability((&quot;H&quot;, &quot;T&quot;), 0.25),</span>
+<span class="go">            Probability((&quot;T&quot;, &quot;H&quot;), 0.25),</span>
+<span class="go">            Probability((&quot;T&quot;, &quot;T&quot;), 0.25),</span>
+<span class="go">        }</span>
+<span class="go">    )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">good_result_condition</span> <span class="o">=</span> <span class="n">FuzzySet</span><span class="p">(</span>
+<span class="go">        {</span>
+<span class="go">            FuzzySetMember((&quot;H&quot;, &quot;H&quot;), 1.0),</span>
+<span class="go">            FuzzySetMember((&quot;H&quot;, &quot;T&quot;), 0.5),</span>
+<span class="go">            FuzzySetMember((&quot;T&quot;, &quot;H&quot;), 0.5),</span>
+<span class="go">        }</span>
+<span class="go">    )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">conditional_distribution</span><span class="p">(</span><span class="n">fair_distribution</span><span class="p">,</span> <span class="n">good_result_condition</span><span class="p">)))</span>
+<span class="go">P((&#39;T&#39;, &#39;T&#39;)) = 0.000, P((&#39;H&#39;, &#39;T&#39;)) = 0.167, P((&#39;T&#39;, &#39;H&#39;)) = 0.167, P((&#39;H&#39;, &#39;H&#39;)) = 0.667</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="functions.html" class="btn btn-neutral float-left" title="Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Jonathan Raines.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
